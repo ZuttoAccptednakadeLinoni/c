@@ -1,0 +1,30 @@
+#include <cstdio>
+
+char a[1005][1005];
+char layer[4005];
+
+void solve() {
+    int n, m; scanf("%d %d", &n, &m);
+    for (int i = 0; i < n; ++i) scanf("%s", a[i]);
+    
+    int count = 0;
+    for (int i = 0; (i + 1) * 2 <= n && (i + 1) * 2 <= m; ++i) {
+        int pos = 0;
+        for (int j = i; j < m - i; ++j) layer[pos++] = a[i][j];
+        for (int j = i + 1; j < n - i - 1; ++j) layer[pos++] = a[j][m - i - 1];
+        for (int j = m - i - 1; j >= i; --j) layer[pos++] = a[n - i - 1][j];
+        for (int j = n - i - 2; j >= i + 1; --j) layer[pos++] = a[j][i];
+        
+        for (int j = 0; j < pos; ++j)
+            if (layer[j] == '1' && layer[(j + 1) % pos] == '5' && layer[(j + 2) % pos] == '4' && layer[(j + 3) % pos] == '3')
+                count++;
+        
+    }
+    
+    printf("%lld\n", count);
+}
+ 
+int main() {
+    int t; scanf("%d", &t);
+    while (t--) solve();
+}
